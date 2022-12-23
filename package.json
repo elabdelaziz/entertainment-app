@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --config .prettierrc src/**/*.js --write"
   },
   "dependencies": {
     "@next/font": "13.1.0",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.20",
+    "prettier": "2.8.1",
     "tailwindcss": "^3.2.4"
   }
 }

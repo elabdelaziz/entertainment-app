@@ -42,7 +42,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex bg-bgColor overflow-x-hidden overflow-y-scroll px-[2rem] w-full max-w-[unset]">
+      <main className="flex bg-bgColor overflow-x-hidden px-[2rem] w-full max-w-[unset]">
         <AppLayout>
           <div className="flex mb-[2rem] mt-[2.1rem]">
             <button className="mr-[20px]">
@@ -64,7 +64,7 @@ export default function Home() {
 
           <section className="mt-[3rem]">
             <h2 className="text-white text-[26px] my-[2rem]">Recommended</h2>
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-[clamp(1.25rem,1%,1%)_clamp(1rem,2%,2%)]">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-[clamp(1.25rem,1%,1%)_clamp(1rem,2%,2%)] max-[1271px]:gap-[1rem]">
               {recommended.length > 0 &&
                 recommended.map((show, i) => (
                   <RecommendedCard key={i} item={show} />

@@ -5,22 +5,23 @@ import AppLayout from '../components/AppLayout';
 import TrendingCard from '../components/TrendingCard';
 import MainCard from '../components/MainCard';
 import useLocalStorage from '../hooks/useLocalStorage';
+import Search from '../components/Search';
 
 export default function Home() {
-  const [data, setData] = useState([]);
-  const [trending, setTrending] = useState([]);
-  const [recommended, setRecommended] = useState([]);
-  const [loading, setLoading] = useState(false);
-
   const moviesData = [];
   const tvData = [];
   const bookmarkedData = [];
 
-  const [tv, setTv] = useLocalStorage('tv', []);
+  const [data, setData] = useState([]);
+  const [trending, setTrending] = useState([]);
+  const [recommended, setRecommended] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [filterSearch, setFilterSearch] = useState([]);
+
+  const [, setTv] = useLocalStorage('tv', []);
   const [, setMovies] = useLocalStorage('movies', []);
   const [, setBookmarked] = useLocalStorage('bookmark', []);
-
-  console.log(tv);
 
   useEffect(() => {
     setData(dataList);
@@ -41,7 +42,7 @@ export default function Home() {
       setBookmarked(bookmarkedData);
       setLoading(false);
     }
-  }, [data, trending]);
+  });
 
   if (loading) {
     return <div>Loading</div>;
@@ -56,19 +57,39 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <AppLayout>
-        <h2 className="text-white text-[26px] my-[2rem]">Trending</h2>
-        <section className="flex h-fit overflow-x-scroll pb-[10px]">
-          {trending.map((show, i) => (
-            <TrendingCard key={i} item={show} />
-          ))}
-        </section>
-        <section className="mt-[3rem]">
-          <h2 className="text-white text-[26px] my-[2rem]">Recommended</h2>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-[clamp(1.25rem,1%,1%)_clamp(1rem,2%,2%)] max-[1271px]:gap-[1rem]">
-            {recommended.length > 0 &&
-              recommended.map((show, i) => <MainCard key={i} item={show} />)}
-          </div>
-        </section>
+        <Search
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          data={data}
+          setFilterSearch={setFilterSearch}
+        />
+        {filterSearch.length === 0 ? (
+          <>
+            <h2 className="text-white text-[26px] my-[2rem]">Trending</h2>
+            <section className="flex h-fit overflow-x-scroll pb-[10px]">
+              {trending.map((show, i) => (
+                <TrendingCard key={i} item={show} />
+              ))}
+            </section>
+            <section className="mt-[3rem]">
+              <h2 className="text-white text-[26px] my-[2rem]">Recommended</h2>
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-[clamp(1.25rem,1%,1%)_clamp(1rem,2%,2%)] max-[1271px]:gap-[1rem]">
+                {recommended.length > 0 &&
+                  recommended.map((show, i) => (
+                    <MainCard key={i} item={show} />
+                  ))}
+              </div>
+            </section>
+          </>
+        ) : (
+          <>
+            <h2 className="text-white text-[26px] my-[2rem]">Shows</h2>
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-[clamp(1.25rem,1%,1%)_clamp(1rem,2%,2%)] max-[1271px]:gap-[1rem]">
+              {filterSearch.length > 0 &&
+                filterSearch.map((show, i) => <MainCard key={i} item={show} />)}
+            </div>
+          </>
+        )}
       </AppLayout>
     </>
   );
